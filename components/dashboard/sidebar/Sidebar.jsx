@@ -1,16 +1,20 @@
 import Link from 'next/link'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import {getAllUser, getCurrentUser} from '../../../redux/actions/authActions'
+import { signout } from '../../../redux/actions/authActions'
 
 const Sidebar = ({ dashboard, employeesList, createTicket, ticketsList }) => {
     const dispatch = useDispatch();
 
-    const ggg = () => {
-        dispatch(getAllUser())
+    const handleSignout = () => {
+        dispatch(signout())
     }
     return (
         <ul className="nav flex-column text-center text-sm-start">
+            {/* <li className="nav-item">
+                <Link href='/' className="nav-link" aria-current="page">Donate now</Link>
+            </li> */}
+            <Link href='/' style={{ textDecoration: 'none', textAlign: 'center', color: '#fff' }}><span style={{ background: 'radial-gradient(black, transparent)', display: 'inline-block', padding: '20px' }}>Donate now</span></Link>
             <li className="nav-item">
                 <Link href='/' className={dashboard ? "nav-link sidebar-active" : "nav-link"} aria-current="page">Dashboard</Link>
             </li>
@@ -23,7 +27,9 @@ const Sidebar = ({ dashboard, employeesList, createTicket, ticketsList }) => {
             <li className="nav-item">
                 <Link href='/create-ticket' className={createTicket ? "nav-link sidebar-active" : "nav-link"} >Create Ticket</Link>
             </li>
-            <p onClick={ggg} >get all</p>
+            <li className="nav-item" onClick={handleSignout} >
+                <a href='' className="nav-link" >Logout</a>
+            </li>
         </ul>
 
     )

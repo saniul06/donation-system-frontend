@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Dashboard from '../../components/dashboard/Dashboard'
-import Heaser from '../../components/layout/Header'
+import Header from '../../components/layout/Header'
 import Layout from '../../components/layout/Layout'
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -17,7 +17,7 @@ export default function DashboardPage() {
 
   return (
     <Layout title='Dashboard' >
-      <Heaser dashboard={true} />
+      {/* <Header dashboard={true} /> */}
       <Dashboard />
     </Layout>
   )

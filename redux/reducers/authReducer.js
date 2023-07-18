@@ -18,7 +18,7 @@ import {
 } from '../constants'
 
 
-export const authReducer = (state = { isAuthenticated: undefined, aa: 'name' }, action) => {
+export const authReducer = (state = {}, action) => {
     switch (action.type) {
         case SIGN_IN_REQUEST:
             return {
