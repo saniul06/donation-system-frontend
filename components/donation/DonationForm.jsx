@@ -99,7 +99,7 @@ const DonationForm = () => {
                             </fieldset>
                         </div>
                         <div className="col-lg-3">
-                            <button disabled={loading ? true : false} onClick={handleDonation}>Donate Now</button>
+                            <button disabled={loading ? true : false} onClick={handleDonation}>Donate</button>
                         </div>
                     </div>
                 </form>

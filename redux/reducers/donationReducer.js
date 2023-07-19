@@ -8,15 +8,30 @@ import {
     MY_DONATION_REQUEST,
     MY_DONATION_SUCCESS,
     MY_DONATION_FAIL,
+    DONATION_UPDATE_REQUEST,
+    DONATION_UPDATE_SUCCESS,
+    DONATION_UPDATE_FAIL,
     DONATION_DELETE_REQUEST,
     DONATION_DELETE_SUCCESS,
     DONATION_DELETE_FAIL,
+    SELECT_DONATION,
+    LOAD_MORE_ALL_DONATION,
+    LOAD_MORE_MY_DONATION,
     CLEAR_MESSAGE
 } from '../constants'
 
 
-export const donationReducer = (state = { donationList: [], myDonationList: [] }, action) => {
-    const { message, createdDonation, donationList, myDonationList, id } = action.payload || [];
+export const donationReducer = (state = { donationList: [], myDonationList: [], selectedDonation: {} }, action) => {
+    const { message,
+        createdDonation,
+        donationList,
+        myDonationList,
+        id,
+        selectedDonation,
+        updatedDonation,
+        allDonationLastId,
+        myDonationLastId
+    } = action.payload || [];
     switch (action.type) {
         case DONATION_CREATE_REQUEST:
             return {
@@ -76,6 +91,31 @@ export const donationReducer = (state = { donationList: [], myDonationList: [] }
                 error: action.payload
             }
 
+        case DONATION_UPDATE_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case DONATION_UPDATE_SUCCESS:
+            state.donationList.forEach(item => {
+                if (item.id === updatedDonation.id) {
+                    item.category = updatedDonation.category;
+                    item.amount = updatedDonation.amount;
+                }
+            })
+            return {
+                ...state,
+                loading: false,
+                success: message,
+                // donationList: state.donationList.filter(item => item.id !== id)
+            }
+        case DONATION_UPDATE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
         case DONATION_DELETE_REQUEST:
             return {
                 ...state,
@@ -93,6 +133,24 @@ export const donationReducer = (state = { donationList: [], myDonationList: [] }
                 ...state,
                 loading: false,
                 error: action.payload
+            }
+
+        case SELECT_DONATION:
+            return {
+                ...state,
+                selectedDonation
+            }
+
+        case LOAD_MORE_ALL_DONATION:
+            return {
+                ...state,
+                allDonationLastId
+            }
+
+        case LOAD_MORE_MY_DONATION:
+            return {
+                ...state,
+                myDonationLastId
             }
 
         case CLEAR_MESSAGE:

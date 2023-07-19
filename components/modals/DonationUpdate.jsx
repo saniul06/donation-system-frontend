@@ -1,6 +1,12 @@
-import React from 'react'
+import { useSelector } from 'react-redux'
+import { donationCategories } from '../../constants/constansts'
+import React, { useState } from 'react'
 
-const DonationUpdate = ({ setShowModal, handleDelete }) => {
+const DonationUpdate = ({ setShowUpdateModal, handleUpdate }) => {
+    const { selectedDonation } = useSelector(state => state.donation);
+    const [category, setCategory] = useState(selectedDonation?.category);
+    const [amount, setAmount] = useState(selectedDonation?.amount);
+
     return (
         <div className="modal fade show donation-success" id="staticBackdrop"
             data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
@@ -8,27 +14,25 @@ const DonationUpdate = ({ setShowModal, handleDelete }) => {
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <button onClick={() => setShowModal(false)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button onClick={() => setShowUpdateModal(false)} type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form>
-                        <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                            <div id="emailHelp" class="form-text">Well never share your email with anyone else.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" />
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    <div className="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label htmlFor="" class="form-label">Category</label>
+                                <select value={category} onChange={e => setCategory(e.target.value)} class="form-select" aria-label="Default select example">
+                                    {donationCategories.map((item, index) => <option key={index} value={item}>{item}</option>)}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleInputPassword1" class="form-label">Amount</label>
+                                <input value={amount} onChange={e => setAmount(e.target.value)} type="number" class="form-control" id="exampleInputPassword1" />
+                            </div>
+                        </form>
+                    </div>
                     <div className="modal-footer">
-                        <button onClick={handleDelete} type="button" className="btn btn-danger">Delete</button>
-                        <button onClick={() => setShowModal(false)} type="button" className="btn btn-primary">Cancel</button>
+                        <button onClick={() => handleUpdate({ category, amount, id: selectedDonation?.id })} type="button" className="btn btn-warning">Update</button>
+                        <button onClick={() => setShowUpdateModal(false)} type="button" className="btn btn-primary">Cancel</button>
                     </div>
                 </div>
             </div>

@@ -39,6 +39,10 @@ const MyDonationPage = () => {
         dispatch(myDonations({ lastId: myDonationList[myDonationList.length - 1].id }))
     }
 
+    const handleCategoryFilter = (category) => {
+        dispatch(myDonations({ category }))
+    }
+
     return (
         <Layout title='Donation-list' >
             <DashboardLayout activeMenu='myDonationList'>
@@ -47,6 +51,7 @@ const MyDonationPage = () => {
                     activeMenu='myDonationList'
                     loadMore={myDonationListLength}
                     handleLoadMore={handleLoadMore}
+                    handleCategoryFilter={handleCategoryFilter}
                 />
             </DashboardLayout>
         </Layout>

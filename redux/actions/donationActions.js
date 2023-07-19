@@ -9,10 +9,16 @@ import {
     MY_DONATION_REQUEST,
     MY_DONATION_SUCCESS,
     MY_DONATION_FAIL,
+    DONATION_UPDATE_REQUEST,
+    DONATION_UPDATE_SUCCESS,
+    DONATION_UPDATE_FAIL,
     DONATION_DELETE_REQUEST,
     DONATION_DELETE_SUCCESS,
     DONATION_DELETE_FAIL,
-    CLEAR_MESSAGE
+    CLEAR_MESSAGE,
+    SELECT_DONATION,
+    LOAD_MORE_ALL_DONATION,
+    LOAD_MORE_MY_DONATION
 } from '../constants'
 
 export const createDonation = (payload) => async dispatch => {
@@ -26,7 +32,7 @@ export const createDonation = (payload) => async dispatch => {
     }
 }
 
-export const getAllDonations = (query) => async dispatch => {
+export const getAllDonations = (query) => async (dispatch, getState) => {
     try {
         let queryString = '';
         for (const key in query) {
@@ -72,8 +78,30 @@ export const deleteDonation = (id, setShowModal) => async dispatch => {
     }
 }
 
-export const loadMoreButton = () => {
+export const updateDonation = (payload, setShowUpdateModal) => async dispatch => {
+    try {
+        const { id, ...rest } = payload;
+        dispatch({ type: DONATION_UPDATE_REQUEST })
+        const { data } = await api.patch(`/donation/${id}`, rest);
+        dispatch({ type: DONATION_UPDATE_SUCCESS, payload: data });
+        setShowUpdateModal(false);
+    } catch (err) {
+        console.log('error is: ', err)
+        dispatch({ type: DONATION_UPDATE_FAIL, payload: err?.response?.data?.message })
+    }
+}
 
+export const selectDonation = (donation) => async dispatch => {
+    dispatch({ type: SELECT_DONATION, payload: { selectedDonation: donation } })
+}
+
+export const allDonationLoadMore = (lastId) => async dispatch => {
+    console.log('ll: ', lastId)
+    dispatch({ type: LOAD_MORE_ALL_DONATION, payload: { allDonationLastId: lastId } })
+}
+
+export const myDonationLoadMore = (lastId) => async dispatch => {
+    dispatch({ type: LOAD_MORE_MY_DONATION, payload: { myDonationLastId: lastId } })
 }
 
 export const clearMessage = () => async dispatch => {
