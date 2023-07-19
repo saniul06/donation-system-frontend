@@ -14,7 +14,7 @@ const MyDonationPage = () => {
     const { isAuthenticated } = useSelector(store => store.auth)
 
     useEffect(() => {
-        if (isAuthenticated === false) {
+        if (!isAuthenticated) {
             router.push('/login')
         }
     }, [isAuthenticated, router])

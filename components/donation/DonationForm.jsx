@@ -21,11 +21,11 @@ const DonationForm = () => {
     useEffect(() => {
         if (success) {
             toast.success(success)
-            // setShowModal(true)
-            // setCategory('');
-            // setAmount(0);
-            // setContact('');
-            // dispatch(clearMessage());
+            setShowModal(true)
+            setCategory('');
+            setAmount(0);
+            setContact('');
+            dispatch(clearMessage());
         }
         if (error) {
             toast.error(error.toString())
@@ -41,6 +41,7 @@ const DonationForm = () => {
 
     const handleDonation = (e) => {
         e.preventDefault();
+        console.log('here')
         if (!category || !amount || !contact) {
             toast.warning('Please fill all fields');
             return;

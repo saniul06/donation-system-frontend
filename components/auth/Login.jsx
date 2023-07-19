@@ -14,7 +14,7 @@ const Login = () => {
     const [invalidEmail, setInvalidEmail] = useState(false);
     const [invalidPassword, setInvalidPassword] = useState(false);
 
-    const { loading, success, error, isAuthenticated } = useSelector(store => store.auth)
+    const { loading, success, signin_success, error, isAuthenticated } = useSelector(store => store.auth)
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -37,10 +37,12 @@ const Login = () => {
             toast.error(error.toString())
             dispatch(clearMessage())
         }
-        if (isAuthenticated) {
+        if (isAuthenticated && signin_success) {
             router.push('/dashboard')
+        } else if (isAuthenticated) {
+            router.back()
         }
-    }, [success, error, isAuthenticated])
+    }, [success, error, isAuthenticated, signin_success])
 
     return (
         <div className="login">

@@ -33,7 +33,8 @@ export const authReducer = (state = {}, action) => {
                 loading: false,
                 success: message,
                 user: user,
-                isAuthenticated: true
+                isAuthenticated: true,
+                signin_success: true
             }
 
         case SIGN_IN_FAIL:

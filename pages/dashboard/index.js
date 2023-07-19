@@ -12,7 +12,7 @@ import DashboardLayout from '../../components/layout/DashboardLayout';
 export default function DashboardPage() {
   const dispatch = useDispatch();
   const router = useRouter()
-  const { isAuthenticated, success, error, user } = useSelector(store => store.auth)
+  const { isAuthenticated, success, error } = useSelector(store => store.auth)
   const { success: donationSuccess, error: donationError, } = useSelector(store => store.donation)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function DashboardPage() {
   }, [success, error, donationSuccess, donationError, dispatch])
 
   useEffect(() => {
-    if (isAuthenticated === false) {
+    if (!isAuthenticated) {
       router.push('/login')
     }
   }, [isAuthenticated, router])
