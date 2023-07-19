@@ -15,7 +15,9 @@ import {
     GET_ALL_USER_REQUEST,
     GET_ALL_USER_SUCCESS,
     GET_ALL_USER_FAIL,
-    CLEAR_MESSAGE
+    CLEAR_MESSAGE,
+    CLEAR_AUTH_STATE,
+    CLEAR_DONATION_STATE
 } from '../constants'
 
 export const signin = (payload) => async dispatch => {
@@ -47,6 +49,8 @@ export const signout = () => async dispatch => {
         dispatch({ type: SIGN_OUT_REQUEST })
         localStorage.removeItem('token');
         dispatch({ type: SIGN_OUT_SUCCESS });
+        dispatch({ type: CLEAR_AUTH_STATE });
+        dispatch({ type: CLEAR_DONATION_STATE });
     } catch (err) {
         console.log('error is: ', err)
         dispatch({ type: SIGN_OUT_FAIL, payload: err.toString() })

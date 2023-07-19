@@ -14,14 +14,20 @@ import {
     DONATION_DELETE_REQUEST,
     DONATION_DELETE_SUCCESS,
     DONATION_DELETE_FAIL,
+    DONATION_SUMMARY_REQUEST,
+    DONATION_SUMMARY_SUCCESS,
+    DONATION_SUMMARY_FAIL,
     SELECT_DONATION,
     LOAD_MORE_ALL_DONATION,
     LOAD_MORE_MY_DONATION,
-    CLEAR_MESSAGE
+    CLEAR_MESSAGE,
+    CLEAR_DONATION_STATE
 } from '../constants'
 
+const initialState = { donationList: [], myDonationList: [], selectedDonation: {} };
 
-export const donationReducer = (state = { donationList: [], myDonationList: [], selectedDonation: {} }, action) => {
+
+export const donationReducer = (state = initialState, action) => {
     const { message,
         createdDonation,
         donationList,
@@ -30,7 +36,8 @@ export const donationReducer = (state = { donationList: [], myDonationList: [], 
         selectedDonation,
         updatedDonation,
         allDonationLastId,
-        myDonationLastId
+        myDonationLastId,
+        donationSummary
     } = action.payload || [];
     switch (action.type) {
         case DONATION_CREATE_REQUEST:
@@ -63,7 +70,7 @@ export const donationReducer = (state = { donationList: [], myDonationList: [], 
                 ...state,
                 loading: false,
                 donationList: [...state.donationList, ...donationList],
-                donationListLength: donationList.length
+                donationListLength: donationList.length === 10
             }
         case GET_ALL_DONATION_FAIL:
             return {
@@ -82,7 +89,7 @@ export const donationReducer = (state = { donationList: [], myDonationList: [], 
                 ...state,
                 loading: false,
                 myDonationList: [...state.myDonationList, ...myDonationList],
-                myDonationListLength: myDonationList.length
+                myDonationListLength: myDonationList.length === 10
             }
         case MY_DONATION_FAIL:
             return {
@@ -107,7 +114,6 @@ export const donationReducer = (state = { donationList: [], myDonationList: [], 
                 ...state,
                 loading: false,
                 success: message,
-                // donationList: state.donationList.filter(item => item.id !== id)
             }
         case DONATION_UPDATE_FAIL:
             return {
@@ -129,6 +135,24 @@ export const donationReducer = (state = { donationList: [], myDonationList: [], 
                 donationList: state.donationList.filter(item => item.id !== id)
             }
         case DONATION_DELETE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+        case DONATION_SUMMARY_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case DONATION_SUMMARY_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                donationSummary
+            }
+        case DONATION_SUMMARY_FAIL:
             return {
                 ...state,
                 loading: false,
@@ -159,6 +183,9 @@ export const donationReducer = (state = { donationList: [], myDonationList: [], 
                 error: null,
                 success: null
             }
+
+        case CLEAR_DONATION_STATE:
+            return initialState;
 
         default:
             return state

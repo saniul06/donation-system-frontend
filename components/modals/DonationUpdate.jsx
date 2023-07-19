@@ -18,15 +18,15 @@ const DonationUpdate = ({ setShowUpdateModal, handleUpdate }) => {
                     </div>
                     <div className="modal-body">
                         <form>
-                            <div class="mb-3">
-                                <label htmlFor="" class="form-label">Category</label>
-                                <select value={category} onChange={e => setCategory(e.target.value)} class="form-select" aria-label="Default select example">
+                            <div className="mb-3">
+                                <label htmlFor="" className="form-label">Category</label>
+                                <select value={category} onChange={e => setCategory(e.target.value)} className="form-select" aria-label="Default select example">
                                     {donationCategories.map((item, index) => <option key={index} value={item}>{item}</option>)}
                                 </select>
                             </div>
-                            <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Amount</label>
-                                <input value={amount} onChange={e => setAmount(e.target.value)} type="number" class="form-control" id="exampleInputPassword1" />
+                            <div className="mb-3">
+                                <label for="exampleInputPassword1" className="form-label">Amount</label>
+                                <input value={amount} onChange={e => setAmount(e.target.value)} type="number" className="form-control" id="exampleInputPassword1" />
                             </div>
                         </form>
                     </div>

@@ -10,8 +10,8 @@ import { useRouter } from 'next/router'
 const MyDonationPage = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { success, error, myDonationList, myDonationListLength } = useSelector(store => store.donation)
-    const { isAuthenticated } = useSelector(store => store.auth)
+    const { success: donationSuccess, error: donationError, myDonationList, myDonationListLength } = useSelector(store => store.donation)
+    const { success, error, isAuthenticated } = useSelector(store => store.auth)
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -33,7 +33,15 @@ const MyDonationPage = () => {
             toast.error(error.toString())
             dispatch(clearMessage())
         }
-    }, [success, error, dispatch])
+        if (donationSuccess) {
+            toast.success(donationSuccess)
+            dispatch(clearDonationMessage())
+        }
+        if (donationError) {
+            toast.error(donationError.toString())
+            dispatch(clearDonationMessage())
+        }
+    }, [success, error, donationSuccess, donationError, dispatch])
 
     const handleLoadMore = () => {
         dispatch(myDonations({ lastId: myDonationList[myDonationList.length - 1].id }))

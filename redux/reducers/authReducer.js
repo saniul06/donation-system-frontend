@@ -14,11 +14,14 @@ import {
     CLEAR_MESSAGE,
     SIGN_OUT_FAIL,
     SIGN_OUT_REQUEST,
-    SIGN_OUT_SUCCESS
+    SIGN_OUT_SUCCESS,
+    CLEAR_AUTH_STATE
 } from '../constants'
 
+const initialState = {}
 
-export const authReducer = (state = {}, action) => {
+
+export const authReducer = (state = initialState, action) => {
     const { message, token, user } = action.payload || {};
     switch (action.type) {
         case SIGN_IN_REQUEST:
@@ -34,7 +37,7 @@ export const authReducer = (state = {}, action) => {
                 success: message,
                 user: user,
                 isAuthenticated: true,
-                signin_success: true
+                signinsuccess: true
             }
 
         case SIGN_IN_FAIL:
@@ -55,6 +58,7 @@ export const authReducer = (state = {}, action) => {
                 ...state,
                 loading: false,
                 success: message,
+                signupSuccess: message
             }
 
         case SIGN_UP_FAIL:
@@ -132,6 +136,8 @@ export const authReducer = (state = {}, action) => {
                 error: null,
                 success: null
             }
+        case CLEAR_AUTH_STATE:
+            return initialState
 
         default:
             return state

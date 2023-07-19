@@ -42,8 +42,8 @@ const DonationList = ({ donationList, activeMenu, loadMore, handleLoadMore, hand
         <>
             <h2 className='mb-4'>{activeMenu === 'donationList' ? 'All' : 'My'} Donations </h2>
             <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="" class="form-label">Search by Category</label>
-                <select onChange={handleFilter} defaultValue={donationCategories[0]} class="form-select" aria-label="Default select example">
+                <label htmlFor="" className="form-label">Search by Category</label>
+                <select onChange={handleFilter} defaultValue={donationCategories[0]} className="form-select" aria-label="Default select example">
                     <option disabled>select category</option>
                     {donationCategories.map((item, index) => <option key={index} value={item}>{item}</option>)}
                 </select>

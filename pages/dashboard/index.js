@@ -5,15 +5,22 @@ import Dashboard from '../../components/dashboard/Dashboard'
 import Layout from '../../components/layout/Layout'
 import { toast } from 'react-toastify';
 import { clearMessage } from '../../redux/actions/authActions';
-import { clearMessage as clearDonationMessage } from '../../redux/actions/donationActions';
+import { clearMessage as clearDonationMessage, getDonationSummary } from '../../redux/actions/donationActions';
 import DashboardLayout from '../../components/layout/DashboardLayout';
+import { UserRole } from '../../utils/constants';
 
 
 export default function DashboardPage() {
   const dispatch = useDispatch();
   const router = useRouter()
-  const { isAuthenticated, success, error } = useSelector(store => store.auth)
-  const { success: donationSuccess, error: donationError, } = useSelector(store => store.donation)
+  const { isAuthenticated, success, error, user } = useSelector(store => store.auth)
+  const { success: donationSuccess, error: donationError, donationSummary } = useSelector(store => store.donation)
+
+  useEffect(() => {
+    if (!donationSummary) {
+      dispatch(getDonationSummary())
+    }
+  }, [])
 
   useEffect(() => {
     if (success) {
@@ -25,11 +32,11 @@ export default function DashboardPage() {
       dispatch(clearMessage())
     }
     if (donationSuccess) {
-      toast.success(success)
+      toast.success(donationSuccess)
       dispatch(clearDonationMessage())
     }
     if (donationError) {
-      toast.error(error.toString())
+      toast.error(donationError.toString())
       dispatch(clearDonationMessage())
     }
   }, [success, error, donationSuccess, donationError, dispatch])
@@ -37,6 +44,9 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/login')
+    }
+    if (isAuthenticated && user?.role === UserRole.user) {
+      router.push('/dashboard/my-donations')
     }
   }, [isAuthenticated, router])
   return (

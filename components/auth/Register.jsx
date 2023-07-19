@@ -19,6 +19,10 @@ const Register = () => {
     const [invalidPassword, setInvalidPassword] = useState(false);
 
     useEffect(() => {
+        if (success) {
+            toast.success(success.toString())
+            dispatch(clearMessage())
+        }
         if (error) {
             toast.error(error.toString())
             dispatch(clearMessage())
@@ -26,7 +30,7 @@ const Register = () => {
         if (isAuthenticated) {
             router.back()
         }
-    }, [error, isAuthenticated])
+    }, [success, error, isAuthenticated, dispatch, router])
 
     const handleRegister = async (e) => {
         e.preventDefault();

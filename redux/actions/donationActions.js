@@ -15,6 +15,9 @@ import {
     DONATION_DELETE_REQUEST,
     DONATION_DELETE_SUCCESS,
     DONATION_DELETE_FAIL,
+    DONATION_SUMMARY_REQUEST,
+    DONATION_SUMMARY_SUCCESS,
+    DONATION_SUMMARY_FAIL,
     CLEAR_MESSAGE,
     SELECT_DONATION,
     LOAD_MORE_ALL_DONATION,
@@ -32,7 +35,7 @@ export const createDonation = (payload) => async dispatch => {
     }
 }
 
-export const getAllDonations = (query) => async (dispatch, getState) => {
+export const getAllDonations = (query) => async (dispatch) => {
     try {
         let queryString = '';
         for (const key in query) {
@@ -46,6 +49,23 @@ export const getAllDonations = (query) => async (dispatch, getState) => {
     } catch (err) {
         console.log('error is: ', err)
         dispatch({ type: GET_ALL_DONATION_FAIL, payload: err?.response?.data?.message })
+    }
+}
+
+export const getDonationSummary = (query) => async (dispatch) => {
+    try {
+        let queryString = '';
+        for (const key in query) {
+            if (query[key]) {
+                queryString += `${key}=${query[key]}&`
+            }
+        }
+        dispatch({ type: DONATION_SUMMARY_REQUEST })
+        const { data } = await api.get(`/donation/summary?${queryString}`);
+        dispatch({ type: DONATION_SUMMARY_SUCCESS, payload: data });
+    } catch (err) {
+        console.log('error is: ', err)
+        dispatch({ type: DONATION_SUMMARY_FAIL, payload: err?.response?.data?.message })
     }
 }
 

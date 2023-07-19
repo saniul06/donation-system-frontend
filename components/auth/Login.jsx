@@ -5,6 +5,7 @@ import { clearMessage, signin } from '../../redux/actions/authActions'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { validateEmail } from '../../utils/helper'
+import { UserRole } from '../../utils/constants'
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Login = () => {
     const [invalidEmail, setInvalidEmail] = useState(false);
     const [invalidPassword, setInvalidPassword] = useState(false);
 
-    const { loading, success, signin_success, error, isAuthenticated } = useSelector(store => store.auth)
+    const { loading, success, signinsuccess, error, isAuthenticated, user, signupSuccess } = useSelector(store => store.auth)
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -33,16 +34,24 @@ const Login = () => {
     }
 
     useEffect(() => {
+        if (signupSuccess) {
+            toast.success(signupSuccess)
+            dispatch(clearMessage())
+        }
         if (error) {
             toast.error(error.toString())
             dispatch(clearMessage())
         }
-        if (isAuthenticated && signin_success) {
+        if (isAuthenticated && signinsuccess && user?.role === UserRole.admin) {
             router.push('/dashboard')
-        } else if (isAuthenticated) {
+        } else if (isAuthenticated && signinsuccess && user?.role === UserRole.user) {
+            router.push('/dashboard/my-donations')
+        }
+
+        else if (isAuthenticated) {
             router.back()
         }
-    }, [success, error, isAuthenticated, signin_success])
+    }, [success, error, isAuthenticated, signinsuccess, signupSuccess])
 
     return (
         <div className="login">

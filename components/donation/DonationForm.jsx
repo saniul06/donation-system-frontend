@@ -61,7 +61,7 @@ const DonationForm = () => {
 
         const payload = { category, amount: parsedAmount, contact };
 
-        if (isAuthenticated & user?.id) {
+        if (isAuthenticated && user?.id) {
             payload.userId = user.id;
         }
 
@@ -89,7 +89,7 @@ const DonationForm = () => {
                         <div className="col-lg-3 align-self-center">
                             <fieldset>
                                 <input value={contact} onChange={e => { setContact(e.target.value); setInvalideContact(false) }} type="address" className={`searchText ${invalidContact && 'text-danger'}`}
-                                    placeholder="Enter email/password" autoComplete="on" required />
+                                    placeholder="Enter valid email/phone" autoComplete="on" required />
                             </fieldset>
                         </div>
                         <div className="col-lg-3 align-self-center">

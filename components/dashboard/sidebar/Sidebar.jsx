@@ -15,10 +15,9 @@ const Sidebar = ({ dashboard, activeMenu, employeesList, createTicket, ticketsLi
     return (
         <ul className="nav flex-column text-center text-sm-start">
             <Link href='/' style={{ textDecoration: 'none', textAlign: 'center', color: '#fff', marginBottom: '20px' }}><button className="btn btn-secondary btn-lg">Donate</button></Link>
-            {/* <Link href='/' style={{ textDecoration: 'none', textAlign: 'center', color: '#fff' }}><span style={{ background: 'radial-gradient(black, transparent)', display: 'inline-block', padding: '20px' }}>Donate</span></Link> */}
-            <li className="nav-item">
+            {isAuthenticated && user?.role && user?.role === UserRole.admin && <li className="nav-item">
                 <Link href='/dashboard' className={activeMenu === 'dashboard' ? "nav-link sidebar-active" : "nav-link"} aria-current="page">Dashboard</Link>
-            </li>
+            </li>}
             <li className="nav-item">
                 <Link href='/dashboard/my-donations' className={activeMenu === 'myDonationList' ? "nav-link sidebar-active" : "nav-link"}>My Donations</Link>
             </li>
