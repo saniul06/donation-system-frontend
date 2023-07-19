@@ -19,6 +19,7 @@ import {
 
 
 export const authReducer = (state = {}, action) => {
+    const { message, token, user } = action.payload || {};
     switch (action.type) {
         case SIGN_IN_REQUEST:
             return {
@@ -26,11 +27,10 @@ export const authReducer = (state = {}, action) => {
                 loading: true,
             }
         case SIGN_IN_SUCCESS:
-            const { token, user } = action.payload;
             localStorage.setItem('token', token)
             return {
                 loading: false,
-                success: true,
+                success: message,
                 user: user,
                 isAuthenticated: true
             }
@@ -46,7 +46,6 @@ export const authReducer = (state = {}, action) => {
                 loading: true,
             }
         case SIGN_UP_SUCCESS:
-            const { message } = action.payload;
             return {
                 ...state,
                 loading: false,
@@ -103,7 +102,7 @@ export const authReducer = (state = {}, action) => {
                 ...state,
                 loading: false,
                 success: true,
-                userList: action.payload.user,
+                userList: user,
             }
         case GET_ALL_USER_FAIL:
             return {

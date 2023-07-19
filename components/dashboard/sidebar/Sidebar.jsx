@@ -3,7 +3,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { signout } from '../../../redux/actions/authActions'
 
-const Sidebar = ({ dashboard, employeesList, createTicket, ticketsList }) => {
+const Sidebar = ({ dashboard, activeMenu, employeesList, createTicket, ticketsList }) => {
     const dispatch = useDispatch();
 
     const handleSignout = () => {
@@ -11,15 +11,13 @@ const Sidebar = ({ dashboard, employeesList, createTicket, ticketsList }) => {
     }
     return (
         <ul className="nav flex-column text-center text-sm-start">
-            {/* <li className="nav-item">
-                <Link href='/' className="nav-link" aria-current="page">Donate now</Link>
-            </li> */}
-            <Link href='/' style={{ textDecoration: 'none', textAlign: 'center', color: '#fff' }}><span style={{ background: 'radial-gradient(black, transparent)', display: 'inline-block', padding: '20px' }}>Donate now</span></Link>
+            <Link href='/' style={{ textDecoration: 'none', textAlign: 'center', color: '#fff', marginBottom: '20px' }}><button className="btn btn-secondary btn-lg">Donate</button></Link>
+            {/* <Link href='/' style={{ textDecoration: 'none', textAlign: 'center', color: '#fff' }}><span style={{ background: 'radial-gradient(black, transparent)', display: 'inline-block', padding: '20px' }}>Donate</span></Link> */}
             <li className="nav-item">
-                <Link href='/' className={dashboard ? "nav-link sidebar-active" : "nav-link"} aria-current="page">Dashboard</Link>
+                <Link href='/dashboard' className={activeMenu === 'dashboard' ? "nav-link sidebar-active" : "nav-link"} aria-current="page">Dashboard</Link>
             </li>
             <li className="nav-item">
-                <Link href='' className={employeesList ? "nav-link sidebar-active" : "nav-link"}>Employees List</Link>
+                <Link href='/dashboard/donation-list' className={activeMenu === 'donationList' ? "nav-link sidebar-active" : "nav-link"}>Donation List</Link>
             </li>
             <li className="nav-item">
                 <Link href='/tickets-list' className={ticketsList ? "nav-link sidebar-active" : "nav-link"} >Tickets List</Link>
@@ -28,7 +26,7 @@ const Sidebar = ({ dashboard, employeesList, createTicket, ticketsList }) => {
                 <Link href='/create-ticket' className={createTicket ? "nav-link sidebar-active" : "nav-link"} >Create Ticket</Link>
             </li>
             <li className="nav-item" onClick={handleSignout} >
-                <a href='' className="nav-link" >Logout</a>
+                <Link href="" className="nav-link" >Logout</Link>
             </li>
         </ul>
 

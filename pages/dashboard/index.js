@@ -1,24 +1,49 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import Dashboard from '../../components/dashboard/Dashboard'
-import Header from '../../components/layout/Header'
 import Layout from '../../components/layout/Layout'
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { clearMessage } from '../../redux/actions/authActions';
+import { clearMessage as clearDonationMessage } from '../../redux/actions/donationActions';
+import DashboardLayout from '../../components/layout/DashboardLayout';
+
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const { isAuthenticated } = useSelector(store => store.auth)
+  const dispatch = useDispatch();
+  const router = useRouter()
+  const { isAuthenticated, success, error, user } = useSelector(store => store.auth)
+  const { success: donationSuccess, error: donationError, } = useSelector(store => store.donation)
+
+  useEffect(() => {
+    if (success) {
+      toast.success(success)
+      dispatch(clearMessage())
+    }
+    if (error) {
+      toast.error(error.toString())
+      dispatch(clearMessage())
+    }
+    if (donationSuccess) {
+      toast.success(success)
+      dispatch(clearDonationMessage())
+    }
+    if (donationError) {
+      toast.error(error.toString())
+      dispatch(clearDonationMessage())
+    }
+  }, [success, error, donationSuccess, donationError, dispatch])
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/login')
     }
-  }, [isAuthenticated])
-
+  }, [isAuthenticated, router])
   return (
     <Layout title='Dashboard' >
-      {/* <Header dashboard={true} /> */}
-      <Dashboard />
+      <DashboardLayout activeMenu='dashboard'>
+        <Dashboard />
+      </DashboardLayout>
     </Layout>
   )
 }

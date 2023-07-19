@@ -1,3 +1,7 @@
+body {
+    background-color: #3f7d3a;
+}
+
 form#search-form {
     background-color: #fff;
     padding: 0px 0px 0px 30px;
@@ -106,8 +110,9 @@ form#search-form button i {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    /* min-height: 100vh; */
     background-color: #3f7d3a;
+    margin-top: 150px;
 }
 
 .login-box {
@@ -116,9 +121,10 @@ form#search-form button i {
     background-color: #a7a7a7;
 }
 
-/* .navbar {
-    background-color: #000 !important;
-} */
+.navbar {
+    background-color: #3f7d3a !important;
+
+}
 
 .card {
     border: 1px solid #ddd;
@@ -168,6 +174,7 @@ form#search-form button i {
 .dashboard {
     padding: 1px 16px;
     min-height: 800px;
+    background-color: #fff;
 }
 
 .sidebar li a {
@@ -277,8 +284,13 @@ tr td button {
     align-items: center;
 }
 
+.donation-success {
+    display: block;
+    background-color: rgba(0, 0, 0, .5);
+}
+
 @media (min-width: 100px) {
-    .sidebar {
+    /* .sidebar {
         display: none;
     }
 
@@ -288,7 +300,7 @@ tr td button {
 
     .dashboard {
         margin-left: 50px;
-    }
+    } */
 }
 
 /* @media (min-width: 576px) {} */
