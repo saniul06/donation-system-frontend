@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { UserRole } from '../../utils/constants';
 
-const SingleDonation = ({ donation, serial, handleDonationDelete }) => {
+const SingleDonation = ({ donation, serial, handleDonationDelete, activeMenu }) => {
 
     return (
         <tr>
@@ -13,9 +13,9 @@ const SingleDonation = ({ donation, serial, handleDonationDelete }) => {
 
             <td> {donation?.contact}</td>
 
-            <td>{donation?.createdAt}</td>
+            <td>{new Date(donation?.createdAt).toLocaleString()}</td>
 
-            <td>
+            {activeMenu === 'donationList' && <td>
                 <button
                     className="btn btn-sm btn-primary"
                     onClick={() => { }}>
@@ -25,7 +25,7 @@ const SingleDonation = ({ donation, serial, handleDonationDelete }) => {
                     className="btn btn-sm btn-danger">
                     Delete
                 </button>
-            </td>
+            </td>}
         </tr>
     )
 }

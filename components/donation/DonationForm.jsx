@@ -21,8 +21,11 @@ const DonationForm = () => {
     useEffect(() => {
         if (success) {
             toast.success(success)
-            setShowModal(true)
-            dispatch(clearMessage());
+            // setShowModal(true)
+            // setCategory('');
+            // setAmount(0);
+            // setContact('');
+            // dispatch(clearMessage());
         }
         if (error) {
             toast.error(error.toString())
@@ -62,9 +65,6 @@ const DonationForm = () => {
         }
 
         dispatch(createDonation(payload))
-        setCategory('');
-        setAmount(0);
-        setContact('');
     }
 
     const handleInputClick = () => {

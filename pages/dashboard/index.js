@@ -35,7 +35,7 @@ export default function DashboardPage() {
   }, [success, error, donationSuccess, donationError, dispatch])
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (isAuthenticated === false) {
       router.push('/login')
     }
   }, [isAuthenticated, router])

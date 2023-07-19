@@ -1,10 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signout } from '../../../redux/actions/authActions'
+import { UserRole } from '../../../utils/constants'
 
 const Sidebar = ({ dashboard, activeMenu, employeesList, createTicket, ticketsList }) => {
     const dispatch = useDispatch();
+
+    const { isAuthenticated, user } = useSelector(store => store.auth);
 
     const handleSignout = () => {
         dispatch(signout())
@@ -17,14 +20,11 @@ const Sidebar = ({ dashboard, activeMenu, employeesList, createTicket, ticketsLi
                 <Link href='/dashboard' className={activeMenu === 'dashboard' ? "nav-link sidebar-active" : "nav-link"} aria-current="page">Dashboard</Link>
             </li>
             <li className="nav-item">
+                <Link href='/dashboard/my-donations' className={activeMenu === 'myDonationList' ? "nav-link sidebar-active" : "nav-link"}>My Donations</Link>
+            </li>
+            {isAuthenticated && user?.role && user?.role === UserRole.admin && <li className="nav-item">
                 <Link href='/dashboard/donation-list' className={activeMenu === 'donationList' ? "nav-link sidebar-active" : "nav-link"}>Donation List</Link>
-            </li>
-            <li className="nav-item">
-                <Link href='/tickets-list' className={ticketsList ? "nav-link sidebar-active" : "nav-link"} >Tickets List</Link>
-            </li>
-            <li className="nav-item">
-                <Link href='/create-ticket' className={createTicket ? "nav-link sidebar-active" : "nav-link"} >Create Ticket</Link>
-            </li>
+            </li>}
             <li className="nav-item" onClick={handleSignout} >
                 <Link href="" className="nav-link" >Logout</Link>
             </li>

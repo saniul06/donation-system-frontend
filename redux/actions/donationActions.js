@@ -6,6 +6,9 @@ import {
     GET_ALL_DONATION_REQUEST,
     GET_ALL_DONATION_SUCCESS,
     GET_ALL_DONATION_FAIL,
+    MY_DONATION_REQUEST,
+    MY_DONATION_SUCCESS,
+    MY_DONATION_FAIL,
     DONATION_DELETE_REQUEST,
     DONATION_DELETE_SUCCESS,
     DONATION_DELETE_FAIL,
@@ -23,14 +26,37 @@ export const createDonation = (payload) => async dispatch => {
     }
 }
 
-export const getAllDonations = () => async dispatch => {
+export const getAllDonations = (query) => async dispatch => {
     try {
+        let queryString = '';
+        for (const key in query) {
+            if (query[key]) {
+                queryString += `${key}=${query[key]}&`
+            }
+        }
         dispatch({ type: GET_ALL_DONATION_REQUEST })
-        const { data } = await api.get('/donation');
+        const { data } = await api.get(`/donation?${queryString}`);
         dispatch({ type: GET_ALL_DONATION_SUCCESS, payload: data });
     } catch (err) {
         console.log('error is: ', err)
         dispatch({ type: GET_ALL_DONATION_FAIL, payload: err?.response?.data?.message })
+    }
+}
+
+export const myDonations = (query) => async dispatch => {
+    try {
+        let queryString = '';
+        for (const key in query) {
+            if (query[key]) {
+                queryString += `${key}=${query[key]}&`
+            }
+        }
+        dispatch({ type: MY_DONATION_REQUEST })
+        const { data } = await api.get(`/donation/me?${queryString}`);
+        dispatch({ type: MY_DONATION_SUCCESS, payload: data });
+    } catch (err) {
+        console.log('error is: ', err)
+        dispatch({ type: MY_DONATION_FAIL, payload: err?.response?.data?.message })
     }
 }
 
@@ -44,6 +70,10 @@ export const deleteDonation = (id, setShowModal) => async dispatch => {
         console.log('error is: ', err)
         dispatch({ type: DONATION_DELETE_FAIL, payload: err?.response?.data?.message })
     }
+}
+
+export const loadMoreButton = () => {
+
 }
 
 export const clearMessage = () => async dispatch => {

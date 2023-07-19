@@ -26,6 +26,7 @@ export const authReducer = (state = {}, action) => {
                 ...state,
                 loading: true,
             }
+
         case SIGN_IN_SUCCESS:
             localStorage.setItem('token', token)
             return {
@@ -34,34 +35,40 @@ export const authReducer = (state = {}, action) => {
                 user: user,
                 isAuthenticated: true
             }
+
         case SIGN_IN_FAIL:
             return {
                 loading: false,
                 error: action.payload,
                 isAuthenticated: false
             }
+
         case SIGN_UP_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
+
         case SIGN_UP_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 success: message,
             }
+
         case SIGN_UP_FAIL:
             return {
                 loading: false,
                 error: action.payload,
                 isAuthenticated: false
             }
+
         case SIGN_OUT_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
+
         case SIGN_OUT_SUCCESS:
             return {
                 loading: false,
@@ -73,11 +80,13 @@ export const authReducer = (state = {}, action) => {
                 loading: false,
                 error: action.payload
             }
+
         case CURRENT_USER_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
+
         case CURRENT_USER_SUCCESS:
             return {
                 ...state,
@@ -86,17 +95,20 @@ export const authReducer = (state = {}, action) => {
                 user: action.payload.user,
                 isAuthenticated: true
             }
+
         case CURRENT_USER_FAIL:
             return {
                 ...state,
                 loading: false,
                 isAuthenticated: false
             }
+
         case GET_ALL_USER_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
+
         case GET_ALL_USER_SUCCESS:
             return {
                 ...state,
@@ -104,6 +116,7 @@ export const authReducer = (state = {}, action) => {
                 success: true,
                 userList: user,
             }
+
         case GET_ALL_USER_FAIL:
             return {
                 ...state,
@@ -111,6 +124,7 @@ export const authReducer = (state = {}, action) => {
                 error: action.payload,
                 // isAuthenticated: false
             }
+
         case CLEAR_MESSAGE:
             return {
                 ...state,

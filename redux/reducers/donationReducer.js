@@ -5,6 +5,9 @@ import {
     GET_ALL_DONATION_REQUEST,
     GET_ALL_DONATION_SUCCESS,
     GET_ALL_DONATION_FAIL,
+    MY_DONATION_REQUEST,
+    MY_DONATION_SUCCESS,
+    MY_DONATION_FAIL,
     DONATION_DELETE_REQUEST,
     DONATION_DELETE_SUCCESS,
     DONATION_DELETE_FAIL,
@@ -12,8 +15,8 @@ import {
 } from '../constants'
 
 
-export const donationReducer = (state = {}, action) => {
-    const { message, createdDonation, donationList, id } = action.payload || [];
+export const donationReducer = (state = { donationList: [], myDonationList: [] }, action) => {
+    const { message, createdDonation, donationList, myDonationList, id } = action.payload || [];
     switch (action.type) {
         case DONATION_CREATE_REQUEST:
             return {
@@ -44,9 +47,29 @@ export const donationReducer = (state = {}, action) => {
             return {
                 ...state,
                 loading: false,
-                donationList
+                donationList: [...state.donationList, ...donationList],
+                donationListLength: donationList.length
             }
         case GET_ALL_DONATION_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+        case MY_DONATION_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case MY_DONATION_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                myDonationList: [...state.myDonationList, ...myDonationList],
+                myDonationListLength: myDonationList.length
+            }
+        case MY_DONATION_FAIL:
             return {
                 ...state,
                 loading: false,
