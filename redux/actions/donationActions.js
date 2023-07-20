@@ -24,10 +24,12 @@ import {
     LOAD_MORE_MY_DONATION
 } from '../constants'
 
-export const createDonation = (payload) => async dispatch => {
+export const createDonation = (payload) => async (dispatch, getState) => {
     try {
         dispatch({ type: DONATION_CREATE_REQUEST })
         const { data } = await api.post('/donation', payload);
+        const { user } = getState().auth;
+        data.userId = user?.id;
         dispatch({ type: DONATION_CREATE_SUCCESS, payload: data });
     } catch (err) {
         console.log('error is: ', err)
@@ -71,12 +73,14 @@ export const getDonationSummary = (query) => async (dispatch) => {
 
 export const myDonations = (query) => async dispatch => {
     try {
+        console.log('query is: ', query)
         let queryString = '';
         for (const key in query) {
             if (query[key]) {
                 queryString += `${key}=${query[key]}&`
             }
         }
+        console.log('query string is: ', queryString)
         dispatch({ type: MY_DONATION_REQUEST })
         const { data } = await api.get(`/donation/me?${queryString}`);
         dispatch({ type: MY_DONATION_SUCCESS, payload: data });

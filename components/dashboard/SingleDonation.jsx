@@ -11,11 +11,11 @@ const SingleDonation = ({ donation, serial, setShowUpdateModal, handleDonationDe
 
             <td>{donation?.category}</td>
 
-            <td>   {donation?.amount}   </td>
+            <td>   {donation?.amount && Number(donation?.amount).toFixed(2)}   </td>
 
             <td> {donation?.contact}</td>
 
-            <td> {donation?.user?.username || 'Anonymous'}</td>
+            {activeMenu === 'donationList' && <td> {donation?.user?.username || 'Anonymous'}</td>}
 
             <td>{new Date(donation?.createdAt).toLocaleString()}</td>
 

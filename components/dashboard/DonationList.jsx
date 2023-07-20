@@ -56,7 +56,7 @@ const DonationList = ({ donationList, activeMenu, loadMore, handleLoadMore, hand
                             <td>Category</td>
                             <td>Amount</td>
                             <td>Contact</td>
-                            <td>Donor</td>
+                            {activeMenu === 'donationList' && <td>Donor</td>}
                             <td>Created Date</td>
                             {activeMenu === 'donationList' && <td>Actions</td>}
                         </tr>

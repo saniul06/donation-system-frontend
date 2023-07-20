@@ -46,12 +46,15 @@ export const donationReducer = (state = initialState, action) => {
                 loading: true,
             }
         case DONATION_CREATE_SUCCESS:
-
+            const { userId } = action.payload;
+            if (userId) state.myDonationList = [createdDonation, ...state.myDonationList]
             return {
                 ...state,
                 loading: false,
                 success: message,
-                createdDonation
+                createdDonation,
+                donationList: [createdDonation, ...state.donationList],
+                myDonationList: [...state.myDonationList]
             }
         case DONATION_CREATE_FAIL:
             return {

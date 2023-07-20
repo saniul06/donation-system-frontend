@@ -2,10 +2,11 @@ import Link from 'next/link'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { signout } from '../../redux/actions/authActions'
+import { UserRole } from '../../utils/constants'
 
 const Header = ({ dashboard }) => {
     const dispatch = useDispatch();
-    const { isAuthenticated } = useSelector(state => state.auth);
+    const { isAuthenticated, user } = useSelector(state => state.auth);
     const handleSignout = () => {
         dispatch(signout())
     }
@@ -22,7 +23,7 @@ const Header = ({ dashboard }) => {
                         {isAuthenticated ?
                             <>
                                 <li className="nav-item">
-                                    <Link className="nav-link" href="/dashboard"><button className="btn btn-secondary">Dashboard</button></Link>
+                                    <Link className="nav-link" href={user?.role === UserRole.admin ? '/dashboard' : '/dashboard/my-donations'}><button className="btn btn-secondary">Dashboard</button></Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" href="" onClick={handleSignout}><button className="btn btn-secondary">Logout</button></Link>
