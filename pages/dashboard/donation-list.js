@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Layout from '@/components/layout/Layout'
 import DonationList from '../../components/dashboard/DonationList'
 import DashboardLayout from '../../components/layout/DashboardLayout'
-import { clearMessage, getAllDonations } from '../../redux/actions/donationActions'
+import { clearMessage, getAllDonations, allDonationCategoryFilter, allDonationLoadMore } from '../../redux/actions/donationActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
@@ -36,11 +36,17 @@ const DonationPage = () => {
     }, [success, error, dispatch])
 
     const handleLoadMore = () => {
-        dispatch(getAllDonations({ lastId: donationList[donationList.length - 1].id }))
+        dispatch(getAllDonations(true))
+        // dispatch(allDonationLoadMore(true))
     }
 
-    const handleCategoryFilter = (category) => {
-        dispatch(getAllDonations({ category }))
+    const selectCategory = (category) => {
+        // dispatch(getAllDonations({ category }))
+        dispatch(allDonationCategoryFilter(category));
+    }
+
+    const handleCategoryFilter = () => {
+        dispatch(getAllDonations())
     }
 
     return (
@@ -51,6 +57,7 @@ const DonationPage = () => {
                     activeMenu='donationList'
                     loadMore={donationListLength}
                     handleLoadMore={handleLoadMore}
+                    selectCategory={selectCategory}
                     handleCategoryFilter={handleCategoryFilter}
                 />
             </DashboardLayout>

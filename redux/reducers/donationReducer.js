@@ -20,6 +20,8 @@ import {
     SELECT_DONATION,
     LOAD_MORE_ALL_DONATION,
     LOAD_MORE_MY_DONATION,
+    CATEGORY_FILTER_ALL_DONATION,
+    CATEGORY_FILTER_MY_DONATION,
     CLEAR_MESSAGE,
     CLEAR_DONATION_STATE
 } from '../constants'
@@ -37,7 +39,10 @@ export const donationReducer = (state = initialState, action) => {
         updatedDonation,
         allDonationLastId,
         myDonationLastId,
-        donationSummary
+        allDonationCategory,
+        myDonationCategory,
+        donationSummary,
+        loadMore
     } = action.payload || [];
     switch (action.type) {
         case DONATION_CREATE_REQUEST:
@@ -69,10 +74,13 @@ export const donationReducer = (state = initialState, action) => {
                 loading: true,
             }
         case GET_ALL_DONATION_SUCCESS:
+            let list = [];
+            if (loadMore) list = [...state.donationList, ...donationList]
+            else list = [...donationList]
             return {
                 ...state,
                 loading: false,
-                donationList: [...state.donationList, ...donationList],
+                donationList: list,
                 donationListLength: donationList.length === 10
             }
         case GET_ALL_DONATION_FAIL:
@@ -88,10 +96,13 @@ export const donationReducer = (state = initialState, action) => {
                 loading: true,
             }
         case MY_DONATION_SUCCESS:
+            let myList = [];
+            if (loadMore) myList = [...state.myDonationList, ...myDonationList]
+            else myList = [...myDonationList]
             return {
                 ...state,
                 loading: false,
-                myDonationList: [...state.myDonationList, ...myDonationList],
+                myDonationList: myList,
                 myDonationListLength: myDonationList.length === 10
             }
         case MY_DONATION_FAIL:
@@ -178,6 +189,18 @@ export const donationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 myDonationLastId
+            }
+
+        case CATEGORY_FILTER_ALL_DONATION:
+            return {
+                ...state,
+                allDonationCategory
+            }
+
+        case CATEGORY_FILTER_MY_DONATION:
+            return {
+                ...state,
+                myDonationCategory
             }
 
         case CLEAR_MESSAGE:

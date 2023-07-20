@@ -31,8 +31,8 @@ const DonationUpdate = ({ setShowUpdateModal, handleUpdate }) => {
                         </form>
                     </div>
                     <div className="modal-footer">
-                        <button onClick={() => handleUpdate({ category, amount, id: selectedDonation?.id })} type="button" className="btn btn-warning">Update</button>
-                        <button onClick={() => setShowUpdateModal(false)} type="button" className="btn btn-primary">Cancel</button>
+                        <button onClick={() => handleUpdate({ category, amount, id: selectedDonation?.id })} type="button" className="btn btn-info">Update</button>
+                        <button onClick={() => setShowUpdateModal(false)} type="button" className="btn btn-secondary">Cancel</button>
                     </div>
                 </div>
             </div>

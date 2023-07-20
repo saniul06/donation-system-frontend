@@ -57,7 +57,7 @@ const Dashboard = () => {
 
 
                     <div className="col-md-3 h-100" style={{ height: '250px' }}>
-                        <div className="card text-white bg-danger mb-3">
+                        <div className="card text-white bg-secondary mb-3">
                             <div className="card-header">This year </div>
                             <div className="card-body">
                                 <h5 className="card-title">{donationSummary?.yearlyAmount} BDT</h5>
@@ -67,7 +67,7 @@ const Dashboard = () => {
 
 
                     <div className="col-md-3 h-100" style={{ height: '250px' }}>
-                        <div className="card text-white bg-danger mb-3">
+                        <div className="card text-white bg-info mb-3">
                             <div className="card-header">Total </div>
                             <div className="card-body">
                                 <h5 className="card-title">{donationSummary?.totalAmount} BDT</h5>

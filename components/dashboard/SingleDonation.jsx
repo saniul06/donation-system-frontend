@@ -21,7 +21,7 @@ const SingleDonation = ({ donation, serial, setShowUpdateModal, handleDonationDe
 
             {activeMenu === 'donationList' && <td>
                 <button
-                    className="btn btn-sm btn-primary"
+                    className="btn btn-sm btn-success"
                     onClick={() => { setShowUpdateModal(true); dispatch(selectDonation(donation)) }}>
                     Edit
                 </button>

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import SingleDonation from './SingleDonation'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteDonation, updateDonation } from '../../redux/actions/donationActions';
+import { deleteDonation, updateDonation, getAllDonations } from '../../redux/actions/donationActions';
 import DonationDelete from '../modals/DonationDelete';
 import DonationUpdate from '../modals/DonationUpdate';
 import { toast } from 'react-toastify';
 import { donationCategories } from '../../constants/constansts';
 
-const DonationList = ({ donationList, activeMenu, loadMore, handleLoadMore, handleCategoryFilter }) => {
+const DonationList = ({ donationList, activeMenu, loadMore, handleLoadMore, selectCategory, handleCategoryFilter }) => {
 
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
@@ -33,21 +33,19 @@ const DonationList = ({ donationList, activeMenu, loadMore, handleLoadMore, hand
         dispatch(updateDonation({ id, amount: parsedAmount, category }, setShowUpdateModal))
     }
 
-    const handleFilter = e => {
-        console.log('e si: ', e.target.value)
-        handleCategoryFilter(e.target.value)
-    }
-
     return (
         <>
             <h2 className='mb-4'>{activeMenu === 'donationList' ? 'All' : 'My'} Donations </h2>
-            <div style={{ marginBottom: '20px' }}>
-                <label htmlFor="" className="form-label">Search by Category</label>
-                <select onChange={handleFilter} defaultValue={donationCategories[0]} className="form-select" aria-label="Default select example">
-                    <option disabled>select category</option>
-                    {donationCategories.map((item, index) => <option key={index} value={item}>{item}</option>)}
-                </select>
-            </div>
+            <div style={{ marginBottom: '20px', display: 'inline-block', gap: '10px' }}>
+                <label htmlFor="" className="form-label">Filter by Category</label>
+                <div style={{ display: 'flex' }}>
+                    <select onChange={(e) => selectCategory(e.target.value)} className="form-select" aria-label="Default select example">
+                        <option value='all'>All category</option>
+                        {donationCategories.map((item, index) => <option key={index} value={item}>{item}</option>)}
+                    </select>
+                    <button onClick={handleCategoryFilter} className='btn btn-success'>Filter</button>
+                </div>
+            </div >
             <div className="table-responsive">
                 <table className="table table-hover">
                     <thead className="table-dark">
@@ -75,15 +73,17 @@ const DonationList = ({ donationList, activeMenu, loadMore, handleLoadMore, hand
 
                 </table>
                 {loadMore ? <div style={{ textAlign: 'center' }}>
-                    <button onClick={handleLoadMore} className="btn btn-primary">Load More</button>
+                    <button onClick={handleLoadMore} className="btn btn-success">Load More</button>
                 </div> : <p className="text-center text-dark">Nothing to show</p>}
             </div>
             {showModal && <DonationDelete handleDelete={handleDelete} setShowModal={setShowModal} />}
-            {showUpdateModal && <DonationUpdate
-                handleUpdate={handleUpdate}
-                setShowModal={setShowModal}
-                setShowUpdateModal={setShowUpdateModal}
-            />}
+            {
+                showUpdateModal && <DonationUpdate
+                    handleUpdate={handleUpdate}
+                    setShowModal={setShowModal}
+                    setShowUpdateModal={setShowUpdateModal}
+                />
+            }
         </>
     )
 }

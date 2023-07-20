@@ -21,7 +21,9 @@ import {
     CLEAR_MESSAGE,
     SELECT_DONATION,
     LOAD_MORE_ALL_DONATION,
-    LOAD_MORE_MY_DONATION
+    LOAD_MORE_MY_DONATION,
+    CATEGORY_FILTER_ALL_DONATION,
+    CATEGORY_FILTER_MY_DONATION
 } from '../constants'
 
 export const createDonation = (payload) => async (dispatch, getState) => {
@@ -37,8 +39,12 @@ export const createDonation = (payload) => async (dispatch, getState) => {
     }
 }
 
-export const getAllDonations = (query) => async (dispatch) => {
+export const getAllDonations = (loadMore) => async (dispatch, getState) => {
     try {
+        const query = {};
+        const { allDonationCategory, donationList } = getState().donation;
+        if (allDonationCategory !== 'all') query.category = allDonationCategory;
+        if (loadMore) query.lastId = donationList[donationList.length - 1]?.id;
         let queryString = '';
         for (const key in query) {
             if (query[key]) {
@@ -47,10 +53,33 @@ export const getAllDonations = (query) => async (dispatch) => {
         }
         dispatch({ type: GET_ALL_DONATION_REQUEST })
         const { data } = await api.get(`/donation?${queryString}`);
+        data.loadMore = loadMore;
         dispatch({ type: GET_ALL_DONATION_SUCCESS, payload: data });
     } catch (err) {
         console.log('error is: ', err)
         dispatch({ type: GET_ALL_DONATION_FAIL, payload: err?.response?.data?.message })
+    }
+}
+
+export const myDonations = (loadMore) => async (dispatch, getState) => {
+    try {
+        const query = {};
+        const { myDonationCategory, myDonationList } = getState().donation;
+        if (myDonationCategory !== 'all') query.category = myDonationCategory;
+        if (loadMore) query.lastId = myDonationList[myDonationList.length - 1]?.id;
+        let queryString = '';
+        for (const key in query) {
+            if (query[key]) {
+                queryString += `${key}=${query[key]}&`
+            }
+        }
+        dispatch({ type: MY_DONATION_REQUEST })
+        const { data } = await api.get(`/donation/me?${queryString}`);
+        data.loadMore = loadMore;
+        dispatch({ type: MY_DONATION_SUCCESS, payload: data });
+    } catch (err) {
+        console.log('error is: ', err)
+        dispatch({ type: MY_DONATION_FAIL, payload: err?.response?.data?.message })
     }
 }
 
@@ -68,25 +97,6 @@ export const getDonationSummary = (query) => async (dispatch) => {
     } catch (err) {
         console.log('error is: ', err)
         dispatch({ type: DONATION_SUMMARY_FAIL, payload: err?.response?.data?.message })
-    }
-}
-
-export const myDonations = (query) => async dispatch => {
-    try {
-        console.log('query is: ', query)
-        let queryString = '';
-        for (const key in query) {
-            if (query[key]) {
-                queryString += `${key}=${query[key]}&`
-            }
-        }
-        console.log('query string is: ', queryString)
-        dispatch({ type: MY_DONATION_REQUEST })
-        const { data } = await api.get(`/donation/me?${queryString}`);
-        dispatch({ type: MY_DONATION_SUCCESS, payload: data });
-    } catch (err) {
-        console.log('error is: ', err)
-        dispatch({ type: MY_DONATION_FAIL, payload: err?.response?.data?.message })
     }
 }
 
@@ -126,6 +136,15 @@ export const allDonationLoadMore = (lastId) => async dispatch => {
 
 export const myDonationLoadMore = (lastId) => async dispatch => {
     dispatch({ type: LOAD_MORE_MY_DONATION, payload: { myDonationLastId: lastId } })
+}
+
+export const allDonationCategoryFilter = (category) => async dispatch => {
+    console.log('ll: ', category)
+    dispatch({ type: CATEGORY_FILTER_ALL_DONATION, payload: { allDonationCategory: category } })
+}
+
+export const myDonationCategoryFilter = (category) => async dispatch => {
+    dispatch({ type: CATEGORY_FILTER_MY_DONATION, payload: { myDonationCategory: category } })
 }
 
 export const clearMessage = () => async dispatch => {

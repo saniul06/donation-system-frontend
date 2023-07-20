@@ -15,7 +15,7 @@ const DonationDelete = ({ setShowModal, handleDelete }) => {
                     </div>
                     <div className="modal-footer">
                         <button onClick={handleDelete} type="button" className="btn btn-danger">Delete</button>
-                        <button onClick={() => setShowModal(false)} type="button" className="btn btn-primary">Cancel</button>
+                        <button onClick={() => setShowModal(false)} type="button" className="btn btn-secondary">Cancel</button>
                     </div>
                 </div>
             </div>
