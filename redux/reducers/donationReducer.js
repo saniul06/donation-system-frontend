@@ -52,13 +52,16 @@ export const donationReducer = (state = initialState, action) => {
             }
         case DONATION_CREATE_SUCCESS:
             const { userId } = action.payload;
-            if (userId) state.myDonationList = [createdDonation, ...state.myDonationList]
+            if (userId) {
+                state.myDonationList = [createdDonation, ...state.myDonationList];
+                state.donationList = [createdDonation, ...state.donationList];
+            }
             return {
                 ...state,
                 loading: false,
                 success: message,
                 createdDonation,
-                donationList: [createdDonation, ...state.donationList],
+                donationList: [...state.donationList],
                 myDonationList: [...state.myDonationList]
             }
         case DONATION_CREATE_FAIL:
